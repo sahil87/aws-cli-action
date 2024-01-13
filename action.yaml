@@ -1,0 +1,10 @@
+name: 'AWS Command Line Interface'
+description: 'This GitHub Action uses the latest version of the AWS CLI in a Docker container to provide an environment to execute AWS CLI commands.'
+
+runs:
+  using: 'docker'
+  image: 'docker://amazon/aws-cli:latest'
+
+branding:
+  icon: "terminal"
+  color: 'orange'
