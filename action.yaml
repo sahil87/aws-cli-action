@@ -1,5 +1,5 @@
 name: 'AWS Command Line Interface'
-description: 'This GitHub Action uses the latest version of the AWS CLI in a Docker container to provide an environment to execute AWS CLI commands.'
+description: 'GitHub Action with the latest AWS CLI in Docker, enabling execution of AWS CLI commands.'
 
 runs:
   using: 'docker'
