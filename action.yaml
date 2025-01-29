@@ -1,10 +1,21 @@
 name: 'AWS Command Line Interface'
 description: 'GitHub Action with the latest AWS CLI in Docker, enabling execution of AWS CLI commands.'
-
-runs:
-  using: 'docker'
-  image: 'docker://amazon/aws-cli:2.23.8'
-
 branding:
   icon: "terminal"
   color: 'orange'
+
+inputs:
+  aws_default_region:
+    description: 'AWS Default Region'
+    required: true
+  aws_acces_key_id:
+    description: 'AWS Access Key ID'
+    required: true
+  aws_secret_access_key:
+    description: 'AWS Secret Access Key'
+    required: true
+
+runs:
+  using: 'docker'
+  image: Dockerfile
+  # image: 'docker://amazon/aws-cli:2.23.8'

@@ -19,36 +19,15 @@ on:
   push:
     branches: [ main ]
 
-permissions:
-  contents: read # This is required for actions/checkout
-  id-token: write # This is required for aws-actions/configure-aws-credentials
-
-env:
-  # Configure AWS Credentials
-  aws_iam_role: <your-iam-role>
-  role_session_name: <your-role-session-name>
-  aws_region: <your-aws-region>
-  
-  #AWS CLI Command
-  cp_source: <your-source>
-  cp_destination: <your-destination>
-
 jobs:
   aws_cli_:
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
-    
-    - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ env.aws_iam_role }}
-          role-session-name: ${{ env.role_session_name }}
-          aws-region: ${{ env.aws_region }}
+      uses: actions/checkout@v4
 
     - name: AWS CLI Command
-      uses: sahil87/aws-cli-action@v1.0
+      uses: sahil87/aws-cli-action@v1.1
       with:
-        args: s3 cp ${{ env.cp_source }} ${{ env.cp_destination }} 
+        args: s3 cp ${{ env.cp_source }} ${{ env.cp_destination }}

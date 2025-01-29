@@ -1,0 +1,8 @@
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+indent_style = space
+
+[*.{js,jsx,ts,tsx,py,sh,md,gql,graphql,yaml,json,sql,njk,scss,css}]
+indent_style = space
+indent_size = 2
