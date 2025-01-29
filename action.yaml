@@ -3,7 +3,7 @@ description: 'GitHub Action with the latest AWS CLI in Docker, enabling executio
 
 runs:
   using: 'docker'
-  image: 'docker://amazon/aws-cli:latest'
+  image: 'docker://amazon/aws-cli:2.23.8'
 
 branding:
   icon: "terminal"
