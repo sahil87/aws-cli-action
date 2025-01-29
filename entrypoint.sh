@@ -1,43 +1,42 @@
-function get_configuration_settings {
-  if [ -z "$INPUT_AWS_ACCESS_KEY_ID" ]
-  then
-    echo "AWS Access Key Id was not found. Using configuration from previous step."
-  else
-    aws configure set aws_access_key_id "$INPUT_AWS_ACCESS_KEY_ID"
-  fi
+#!/bin/sh
 
-  if [ -z "$INPUT_AWS_SECRET_ACCESS_KEY" ]
-  then
-    echo "AWS Secret Access Key was not found. Using configuration from previous step."
-  else
-    aws configure set aws_secret_access_key "$INPUT_AWS_SECRET_ACCESS_KEY"
-  fi
+set -e
 
-  if [ -z "$INPUT_AWS_REGION" ]
-  then
-    echo "AWS region not found. Using configuration from previous step."
-  else
-    aws configure set region "$INPUT_AWS_REGION"
-  fi
-}
+if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+  echo "AWS_ACCESS_KEY_ID is not set. Quitting."
+  exit 1
+fi
 
-function main {
-  echo "v1.1"
-  get_configuration_settings
-  aws --version
+if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
+  echo "AWS_SECRET_ACCESS_KEY is not set. Quitting."
+  exit 1
+fi
 
-  echo "aws $*"
-  sh -c "aws $*"
+# Default to us-east-1 if AWS_REGION not set.
+if [ -z "$AWS_REGION" ]; then
+  AWS_REGION="us-east-1"
+fi
 
-#   echo 
-#   if [ "$COMMAND" == "cp" ] || [ "$COMMAND" == "mv" ] || [ "$COMMAND" == "sync" ]
-#   then
-#     echo aws s3 $COMMAND "$INPUT_SOURCE" "$INPUT_DESTINATION" $INPUT_FLAGS
-#     aws s3 "$COMMAND" "$INPUT_SOURCE" "$INPUT_DESTINATION" $INPUT_FLAGS
-#   else
-#     echo aws s3 $COMMAND "$INPUT_SOURCE" $INPUT_FLAGS
-#     aws s3 "$COMMAND" "$INPUT_SOURCE" $INPUT_FLAGS
-#   fi
-}
+# Create a dedicated profile for this action to avoid conflicts
+# with past/future actions.
+# https://github.com/jakejarvis/s3-sync-action/issues/1
+aws configure --profile s3-sync-action <<-EOF > /dev/null 2>&1
+${AWS_ACCESS_KEY_ID}
+${AWS_SECRET_ACCESS_KEY}
+${AWS_REGION}
+text
+EOF
 
-main
+echo "aws $*"
+sh -c "aws $*"
+
+# Clear out credentials after we're done.
+# We need to re-run `aws configure` with bogus input instead of
+# deleting ~/.aws in case there are other credentials living there.
+# https://forums.aws.amazon.com/thread.jspa?threadID=148833
+aws configure --profile s3-sync-action <<-EOF > /dev/null 2>&1
+null
+null
+null
+text
+EOF

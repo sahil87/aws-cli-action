@@ -1,5 +1,19 @@
 # AWS Command Line Interface GitHub Action
 
+## References
+
+* https://github.com/jakejarvis/s3-sync-action
+* https://github.com/keithweaver/aws-s3-github-action
+
+## Creating new releases
+
+```
+git add -A;
+git commit -m "<commit msg>"
+git tag -a -m "<tag msg>" v1.2
+git push --follow-tags
+```
+
 ## Description
 
 This GitHub Action uses the latest version of the AWS CLI in a Docker container to provide an environment to execute AWS CLI commands. It's designed to enable seamless interaction with AWS services, making it easier to manage AWS resources, deploy applications, and automate workflows directly from your GitHub workflows.
@@ -28,6 +42,6 @@ jobs:
       uses: actions/checkout@v4
 
     - name: AWS CLI Command
-      uses: sahil87/aws-cli-action@v1.1
+      uses: sahil87/aws-cli-action@v1.2
       with:
         args: s3 cp ${{ env.cp_source }} ${{ env.cp_destination }}
