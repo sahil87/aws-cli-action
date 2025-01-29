@@ -43,5 +43,6 @@ jobs:
 
     - name: AWS CLI Command
       uses: sahil87/aws-cli-action@v1.2
+      #OR sahil87/aws-cli-action@main
       with:
         args: s3 cp ${{ env.cp_source }} ${{ env.cp_destination }}
