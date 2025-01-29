@@ -10,7 +10,7 @@
 ```
 git add -A;
 git commit -m "<commit msg>"
-git tag -a -m "<tag msg>" v1.2
+git tag -a -m "<tag msg>" v1.3
 git push --follow-tags
 ```
 
@@ -42,7 +42,10 @@ jobs:
       uses: actions/checkout@v4
 
     - name: AWS CLI Command
-      uses: sahil87/aws-cli-action@v1.2
+      uses: sahil87/aws-cli-action@v1.3
       #OR sahil87/aws-cli-action@main
       with:
-        args: s3 cp ${{ env.cp_source }} ${{ env.cp_destination }}
+        args: >
+          s3 cp \
+          --recursive \
+          ${{ env.cp_source }} ${{ env.cp_destination }}
