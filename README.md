@@ -49,6 +49,6 @@ jobs:
           aws-region: ${{ env.aws_region }}
 
     - name: AWS CLI Command
-      uses: sahil87/aws-cli-action@v1
+      uses: sahil87/aws-cli-action@v1.0
       with:
         args: s3 cp ${{ env.cp_source }} ${{ env.cp_destination }} 
