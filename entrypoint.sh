@@ -12,9 +12,9 @@ if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
   exit 1
 fi
 
-# Default to us-east-1 if AWS_REGION not set.
-if [ -z "$AWS_REGION" ]; then
-  AWS_REGION="us-east-1"
+# Default to us-east-1 if AWS_DEFAULT_REGION not set.
+if [ -z "$AWS_DEFAULT_REGION" ]; then
+  AWS_DEFAULT_REGION="us-east-1"
 fi
 
 # Create a dedicated profile for this action to avoid conflicts
@@ -23,7 +23,7 @@ fi
 aws configure --profile s3-sync-action <<-EOF > /dev/null 2>&1
 ${AWS_ACCESS_KEY_ID}
 ${AWS_SECRET_ACCESS_KEY}
-${AWS_REGION}
+${AWS_DEFAULT_REGION}
 text
 EOF
 
